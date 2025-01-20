@@ -14,7 +14,13 @@ class WalletCLI < Thor
                when :mainnet
                 @currency = 'BTC'
                 :bitcoin
-               when :testnet
+               when :testnet3
+                @currency = 'tBTC'
+                :testnet3
+              when :testnet4
+                @currency = 'tBTC'
+                :testnet3
+              when :signet
                 @currency = 'tBTC'
                 :testnet3
                end

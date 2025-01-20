@@ -78,8 +78,16 @@ class BlockstreamClient
   end
 
   def base_url
-    @base_url ||= if @network == :testnet
+    api_url = ENV.fetch('BLOCKSTREAM_API_URL', nil)
+    @base_url ||= api_url unless api_url.nil?
+
+    @base_url ||= case @network
+                  when :testnet3
                     'https://blockstream.info/testnet/api'
+                  when :testnet4
+                    'https://mempool.space/testnet4/api'
+                  when :signet
+                    'https://mempool.space/signet/api'
                   else
                     'https://blockstream.info/api'
                   end
