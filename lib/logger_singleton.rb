@@ -16,8 +16,12 @@ class LoggerSingleton
   end
 
   class << self
-    def method_missing(method, *args, &block)
-      instance.logger.__send__(method, *args)
+    def method_missing(method, *args, **kwargs, &block)
+      if kwargs.empty?
+        instance.logger.__send__(method, *args, &block)
+      else
+        instance.logger.__send__(method, *args, **kwargs, &block)
+      end
     end
 
     def respond_to_missing?(method_name, include_private = false)

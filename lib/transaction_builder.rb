@@ -2,9 +2,7 @@ require 'stringio'
 require 'bitcoin'
 
 require_relative 'utils/threadable'
-require_relative 'errors/invalid_transaction_error'
-require_relative 'errors/insufficient_funds_error'
-require_relative 'errors/signature_error'
+require_relative 'errors'
 require_relative 'logger_singleton'
 require_relative 'money_conversion'
 
@@ -46,14 +44,13 @@ class TransactionBuilder
   def sign
     check_tx!
 
-    threaded_job(tx.in) do |input, i|
+    tx.in.each_with_index.all? do |input, i|
       prev_tx = @utxos[i][:tx]
       input.script_sig = script_signature(@key,
-        tx.signature_hash_for_input(i, prev_tx, HASH_TYPE)
-      )
+                                          tx.signature_hash_for_input(i, prev_tx, HASH_TYPE))
 
       tx.verify_input_signature(i, prev_tx)
-    end.map(&:value).all?
+    end
   rescue StandardError => e
     raise InvalidTransactionError, e.message
   end
@@ -73,11 +70,12 @@ class TransactionBuilder
   end
 
   def add_inputs(tx)
-    threaded_job(@utxos) do |utxo|
-      utxo[:tx] = prev_tx(utxo)
-      raise InvalidTransactionError, "Invalid UTXO: #{utxo.inspect}" unless utxo[:tx]
+    prev_txs = threaded_map(@utxos) { |utxo, _i| prev_tx(utxo) }
+    prev_txs.each_with_index do |ptx, i|
+      raise InvalidTransactionError, "Invalid UTXO: #{@utxos[i].inspect}" unless ptx
 
-      tx.add_in(input(utxo))
+      @utxos[i][:tx] = ptx
+      tx.add_in(input(@utxos[i]))
     end
   end
 
@@ -100,10 +98,13 @@ class TransactionBuilder
   def check_balance!
     required = amount + estimated_fee
     current_balance = balance
-    formated_current_balance = sprintf("%.10f", MoneyConversion.from_minimal_to_float(current_balance, 'BTC'))
-    formated_required = sprintf("%.10f", MoneyConversion.from_minimal_to_float(required, 'BTC'))
+    formated_current_balance = format('%.10f', MoneyConversion.from_minimal_to_float(current_balance, 'BTC'))
+    formated_required = format('%.10f', MoneyConversion.from_minimal_to_float(required, 'BTC'))
 
-    raise InsufficientFundsError, "Insufficient funds: balance #{formated_current_balance} < #{formated_required}" if current_balance < required
+    return unless current_balance < required
+
+    raise InsufficientFundsError,
+          "Insufficient funds: balance #{formated_current_balance} < #{formated_required}"
   end
 
   def balance

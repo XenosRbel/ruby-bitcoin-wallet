@@ -29,3 +29,7 @@ docker-compose run --rm wallet send <recipient_address> <amount>
 ```bash
 docker-compose run --rm wallet help
 ```
+
+Поддерживаемые значения для переменной окружения BITCOIN_NETWORK: testnet3, testnet4, signet, mainnet.
+
+Переменная окружения BLOCKSTREAM_API_URL может принять API URL для обращения к блокчейну, например: `https://mempool.space/testnet4/api`.

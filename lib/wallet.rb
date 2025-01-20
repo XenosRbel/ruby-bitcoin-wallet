@@ -3,12 +3,13 @@
 require 'bitcoin'
 require_relative 'blockstream_client'
 require_relative 'transaction_builder'
+require_relative 'bitcoin_openssl3_compat'
 require_relative 'logger_singleton'
-require_relative 'errors/signature_error'
+require_relative 'errors'
 
 class Wallet
   STORAGE_PATH = '/app/data'
-  WALLET_FILE = STORAGE_PATH + "/wallet.key"
+  WALLET_FILE = STORAGE_PATH + '/wallet.key'
 
   def initialize(network)
     @network = network
@@ -50,9 +51,9 @@ class Wallet
       key_wif = File.read(WALLET_FILE).strip
       begin
         @key = Bitcoin::Key.from_base58(key_wif)
-      rescue => e
-        LoggerSingleton.error({event: 'key_load_error', error: e.message})
-        return false
+      rescue StandardError => e
+        LoggerSingleton.error({ event: 'key_load_error', error: e.message })
+        false
       end
     else
       priv_key = Bitcoin::Key.generate.priv
@@ -61,10 +62,10 @@ class Wallet
       File.write(WALLET_FILE, wif)
 
       LoggerSingleton.info({
-        event: 'wallet_created',
-        address: @key.addr,
-        wif: wif
-      })
+                             event: 'wallet_created',
+                             address: @key.addr,
+                             wif: wif
+                           })
     end
   end
 end

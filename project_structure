@@ -7,26 +7,26 @@ ruby-bitcoin-wallet/
 ├── project_structure
 ├── README.md
 ├── lib/
+│   ├── bitcoin_openssl3_compat.rb
 │   ├── blockstream_client.rb
-│   ├── errors/
-│   │   ├── base_error.rb
-│   │   ├── gateway_timeout_error.rb
-│   │   ├── insufficient_funds_error.rb
-│   │   ├── invalid_transaction_error.rb
-│   │   ├── precision_not_found_error.rb
-│   │   ├── service_unavailable_error.rb
-│   │   ├── signature_error.rb
-│   │   └── transaction_error.rb
+│   ├── errors.rb
+│   ├── logger_singleton.rb
 │   ├── money_conversion.rb
 │   ├── transaction_builder.rb
-│   ├── wallet.rb
-│   └── logger_singleton.rb
+│   ├── utils/
+│   │   ├── retryable.rb
+│   │   └── threadable.rb
+│   └── wallet.rb
 ├── bin/
+│   ├── self_check.rb
 │   └── wallet_cli.rb
 ├── data/
 │   └── (файлы кошелька)
+├── vendor/
+│   └── bundle/ (локальные гемы, не в git)
+├── .bundle/
+│   └── config (локальный путь бандлера, не в git)
 ├── .env
 ├── .gitignore
-├── .ruby-gemset
 ├── .ruby-version
 └── .tool-versions
