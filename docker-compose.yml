@@ -1,0 +1,23 @@
+volumes:
+  bundle_cache:
+
+services:
+  wallet:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: wallet:latest
+    entrypoint: ["/app/docker-compose-entrypoint.sh", "ruby", "bin/wallet_cli.rb"]
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - ./data:/app/data
+      - bundle_cache:/usr/local/bundle
+    environment:
+      - BITCOIN_NETWORK=testnet
+      - RUBY_YJIT_ENABLE=1
+      - LOG_LEVEL=info
+      - BUNDLE_PATH=/usr/local/bundle
+      - GEM_HOME=/usr/local/bundle
+      - BUNDLE_APP_CONFIG=/app/.bundle

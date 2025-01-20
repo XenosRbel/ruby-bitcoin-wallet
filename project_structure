@@ -1,0 +1,32 @@
+ruby-bitcoin-wallet/
+├── Dockerfile
+├── docker-compose-entrypoint.sh
+├── docker-compose.yml
+├── Gemfile
+├── Gemfile.lock
+├── project_structure
+├── README.md
+├── lib/
+│   ├── blockstream_client.rb
+│   ├── errors/
+│   │   ├── base_error.rb
+│   │   ├── gateway_timeout_error.rb
+│   │   ├── insufficient_funds_error.rb
+│   │   ├── invalid_transaction_error.rb
+│   │   ├── precision_not_found_error.rb
+│   │   ├── service_unavailable_error.rb
+│   │   ├── signature_error.rb
+│   │   └── transaction_error.rb
+│   ├── money_conversion.rb
+│   ├── transaction_builder.rb
+│   ├── wallet.rb
+│   └── logger_singleton.rb
+├── bin/
+│   └── wallet_cli.rb
+├── data/
+│   └── (файлы кошелька)
+├── .env
+├── .gitignore
+├── .ruby-gemset
+├── .ruby-version
+└── .tool-versions

@@ -1,0 +1,65 @@
+GIT
+  remote: https://github.com/lian/bitcoin-ruby
+  revision: f9b817c946b3ef99c7652c318c155200aadc6489
+  specs:
+    bitcoin-ruby (0.0.20)
+      eventmachine
+      ffi
+      scrypt
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bigdecimal (3.1.9)
+    csv (3.3.2)
+    eventmachine (1.2.7)
+    ffi (1.17.1)
+    ffi (1.17.1-aarch64-linux-gnu)
+    ffi (1.17.1-aarch64-linux-musl)
+    ffi (1.17.1-arm-linux-gnu)
+    ffi (1.17.1-arm-linux-musl)
+    ffi (1.17.1-arm64-darwin)
+    ffi (1.17.1-x86-linux-gnu)
+    ffi (1.17.1-x86-linux-musl)
+    ffi (1.17.1-x86_64-darwin)
+    ffi (1.17.1-x86_64-linux-gnu)
+    ffi (1.17.1-x86_64-linux-musl)
+    ffi-compiler (1.3.2)
+      ffi (>= 1.15.5)
+      rake
+    httparty (0.22.0)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
+    mini_mime (1.1.5)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
+    rake (13.2.1)
+    scrypt (3.0.8)
+      ffi-compiler (>= 1.0, < 2.0)
+      rake (>= 9, < 14)
+    thor (1.3.2)
+
+PLATFORMS
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
+  ruby
+  x86-linux-gnu
+  x86-linux-musl
+  x86_64-darwin
+  x86_64-linux-gnu
+  x86_64-linux-musl
+
+DEPENDENCIES
+  bitcoin-ruby!
+  httparty
+  thor
+
+RUBY VERSION
+   ruby 3.3.6p108
+
+BUNDLED WITH
+   2.6.2
